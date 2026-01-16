@@ -98,7 +98,10 @@ class NatNetClient:
     # Create a data socket to attach to the NatNet stream
     def __create_data_socket(self, port):
         if self.__use_multicast:
-            addr = self.__multicast_address
+            # For multicast reception, bind to INADDR_ANY ("") on the data port,
+            # then join the multicast group via IP_ADD_MEMBERSHIP.
+            addr = ""
+            # keep the provided data port
         else:
             addr = ""
             port = 0
